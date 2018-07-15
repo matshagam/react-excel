@@ -50,20 +50,51 @@ export default class Excel extends Component {
   };
 
   _toggleSearch = () => {
+    if (this.state.search) {
+      this.setState({
+        search: !this.state.search
+      });
+      this._preSearchData = null;
+    } else {
+      this._preSearchData = this.state.data;
+      this.setState({
+        search: !this.state.search
+      });
+    }
+  };
+
+  _search = e => {
+    var needle = e.target.value.toLowerCase();
+
+    if (!needle) {
+      this.setState({
+        data: this._preSearchData
+      });
+      return;
+    }
+    var idx = e.target.dataset.idx;
+    var searchdata = this._preSearchData.filter(row => {
+      return (
+        row[idx]
+          .toString()
+          .toLowerCase()
+          .indexOf(needle) > -1
+      );
+    });
     this.setState({
-      search: !this.state.search
+      data: searchdata
     });
   };
 
   render() {
-    const { sortby, descending, data, edit } = this.state;
+    const { sortby, descending, data, edit, search } = this.state;
 
     return (
       <div>
         <button onClick={this._toggleSearch}>Search</button>
         <table>
           <thead onClick={this._sort}>
-            {this.state.search ? (
+            {search ? (
               <tr onChange={this._search}>
                 {constHeaders.map((_ignore, idx) => {
                   return (
