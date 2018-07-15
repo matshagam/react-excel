@@ -1,5 +1,11 @@
-export const headers = ['Book', 'Author', 'Language', 'Published', 'Sales'];
-export const data = [
+export const constHeaders = [
+  'Book',
+  'Author',
+  'Language',
+  'Published',
+  'Sales'
+];
+export const constData = [
   [
     'The Lord of the Rings',
     'J. R. R. Tolkien',
