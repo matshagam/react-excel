@@ -119,12 +119,16 @@ export default class Excel extends Component {
     return (
       <div>
         <button onClick={this._toggleSearch}>Search</button>
-        <a onClick={this._download.bind(this, 'json')} href="data.json">
-          Export JSON
-        </a>
-        <a onClick={this._download.bind(this, 'csv')} href="data.csv">
-          Export CSV
-        </a>
+        <button>
+          <a onClick={this._download.bind(this, 'json')} href="data.json">
+            Export JSON
+          </a>
+        </button>
+        <button>
+          <a onClick={this._download.bind(this, 'csv')} href="data.csv">
+            Export CSV
+          </a>
+        </button>
         <table>
           <thead onClick={this._sort}>
             <tr>

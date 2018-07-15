@@ -11,11 +11,21 @@ td {
   border-top: 0.04em solid grey;
 }
 
-button {
-  margin-bottom: 1em;
+button:hover {
+  background: #515196;
 }
 
-button,
+button {
+  margin-bottom: 1em;
+  padding: 0.6em;
+  color: #fff;
+  background: grey;
+  font-size: 0.8em;
+  font-weight: bold;
+  outline: none;
+}
+
 a {
-  padding: 1em;
+  text-decoration: none;
+  color: #fff;
 }
