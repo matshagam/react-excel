@@ -9,3 +9,7 @@ table {
 td {
   border-top: 0.04em solid grey;
 }
+
+button {
+  margin-bottom: 1em;
+}

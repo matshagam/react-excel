@@ -10,7 +10,8 @@ export default class Excel extends Component {
       data: constData,
       descending: false,
       sortby: null,
-      edit: null
+      edit: null,
+      search: false
     };
   }
 
@@ -48,45 +49,66 @@ export default class Excel extends Component {
     });
   };
 
+  _toggleSearch = () => {
+    this.setState({
+      search: !this.state.search
+    });
+  };
+
   render() {
     const { sortby, descending, data, edit } = this.state;
 
     return (
-      <table>
-        <thead onClick={this._sort}>
-          <tr>
-            {constHeaders.map((title, idx) => {
-              if (sortby === idx) {
-                title += descending ? ' \u2191' : ' \u2193';
-              }
-              return <th key={idx}>{title}</th>;
-            })}
-          </tr>
-        </thead>
-        <tbody onDoubleClick={this._showEditor}>
-          {data.map((row, rowidx) => {
-            return (
-              <tr key={rowidx}>
-                {row.map((cell, idx) => {
-                  var content = cell;
-                  if (edit && edit.row === rowidx && edit.cell === idx) {
-                    content = (
-                      <form onSubmit={this._save}>
-                        <input type="text" defaultValue={cell} />
-                      </form>
-                    );
-                  }
+      <div>
+        <button onClick={this._toggleSearch}>Search</button>
+        <table>
+          <thead onClick={this._sort}>
+            {this.state.search ? (
+              <tr onChange={this._search}>
+                {constHeaders.map((_ignore, idx) => {
                   return (
-                    <td key={idx} data-row={rowidx}>
-                      {content}
+                    <td key={idx}>
+                      <input type="text" data-idx={idx} />
                     </td>
                   );
                 })}
               </tr>
-            );
-          })}
-        </tbody>
-      </table>
+            ) : (
+              <tr>
+                {constHeaders.map((title, idx) => {
+                  if (sortby === idx) {
+                    title += descending ? ' \u2191' : ' \u2193';
+                  }
+                  return <th key={idx}>{title}</th>;
+                })}
+              </tr>
+            )}
+          </thead>
+          <tbody onDoubleClick={this._showEditor}>
+            {data.map((row, rowidx) => {
+              return (
+                <tr key={rowidx}>
+                  {row.map((cell, idx) => {
+                    var content = cell;
+                    if (edit && edit.row === rowidx && edit.cell === idx) {
+                      content = (
+                        <form onSubmit={this._save}>
+                          <input type="text" defaultValue={cell} />
+                        </form>
+                      );
+                    }
+                    return (
+                      <td key={idx} data-row={rowidx}>
+                        {content}
+                      </td>
+                    );
+                  })}
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
     );
   }
 }
