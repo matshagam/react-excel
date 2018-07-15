@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
 
-import { headers } from './helpers';
+import { headers, data } from './helpers';
 
 export default class Excel extends Component {
   render() {
@@ -15,6 +14,17 @@ export default class Excel extends Component {
             })}
           </tr>
         </thead>
+        <tbody>
+          {data.map(function(row, idx) {
+            return (
+              <tr key={idx}>
+                {row.map(function(cell, idx) {
+                  return <td key={idx}>{cell}</td>;
+                })}
+              </tr>
+            );
+          })}
+        </tbody>
       </table>
     );
   }
