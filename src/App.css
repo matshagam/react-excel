@@ -14,3 +14,8 @@ td {
 button {
   margin-bottom: 1em;
 }
+
+button,
+a {
+  padding: 1em;
+}

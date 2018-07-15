@@ -52,6 +52,7 @@ export default class Excel extends Component {
   _toggleSearch = () => {
     if (this.state.search) {
       this.setState({
+        data: this._preSearchData,
         search: !this.state.search
       });
       this._preSearchData = null;
@@ -65,6 +66,7 @@ export default class Excel extends Component {
 
   _search = e => {
     var needle = e.target.value.toLowerCase();
+    console.log({ needle });
 
     if (!needle) {
       this.setState({
@@ -86,14 +88,53 @@ export default class Excel extends Component {
     });
   };
 
+  _download = (format, ev) => {
+    var contents =
+      format === 'json'
+        ? JSON.stringify(this.state.data)
+        : this.state.data.reduce((result, row) => {
+            return (
+              result +
+              row.reduce((rowresult, cell, idx) => {
+                return (
+                  rowresult +
+                  '"' +
+                  cell.replace(/"/g, '""') +
+                  '"' +
+                  (idx < row.length - 1 ? ',' : '')
+                );
+              }, '') +
+              '\n'
+            );
+          }, '');
+    var URL = window.URL || window.webkitURL;
+    var blob = new Blob([contents], { type: 'text/' + format });
+    ev.target.href = URL.createObjectURL(blob);
+    ev.target.download = 'data. ' + format;
+  };
+
   render() {
     const { sortby, descending, data, edit, search } = this.state;
 
     return (
       <div>
         <button onClick={this._toggleSearch}>Search</button>
+        <a onClick={this._download.bind(this, 'json')} href="data.json">
+          Export JSON
+        </a>
+        <a onClick={this._download.bind(this, 'csv')} href="data.csv">
+          Export CSV
+        </a>
         <table>
           <thead onClick={this._sort}>
+            <tr>
+              {constHeaders.map((title, idx) => {
+                if (sortby === idx) {
+                  title += descending ? ' \u2191' : ' \u2193';
+                }
+                return <th key={idx}>{title}</th>;
+              })}
+            </tr>
             {search ? (
               <tr onChange={this._search}>
                 {constHeaders.map((_ignore, idx) => {
@@ -104,16 +145,7 @@ export default class Excel extends Component {
                   );
                 })}
               </tr>
-            ) : (
-              <tr>
-                {constHeaders.map((title, idx) => {
-                  if (sortby === idx) {
-                    title += descending ? ' \u2191' : ' \u2193';
-                  }
-                  return <th key={idx}>{title}</th>;
-                })}
-              </tr>
-            )}
+            ) : null}
           </thead>
           <tbody onDoubleClick={this._showEditor}>
             {data.map((row, rowidx) => {
