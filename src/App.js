@@ -14,10 +14,8 @@ export default class Excel extends Component {
   }
 
   _sort = e => {
-    console.log(e);
-
     var column = e.target.cellIndex;
-    var data = this.state.data.slice();
+    var data = Array.from(this.state.data);
     var descending = this.state.sortby === column && !this.state.descending;
     data.sort((a, b) => {
       return descending ? a[column] < b[column] : a[column] > b[column];
