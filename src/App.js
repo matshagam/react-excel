@@ -9,7 +9,8 @@ export default class Excel extends Component {
     this.state = {
       data: constData,
       descending: false,
-      sortby: null
+      sortby: null,
+      edit: null
     };
   }
 
@@ -27,8 +28,28 @@ export default class Excel extends Component {
     });
   };
 
+  _showEditor = e => {
+    this.setState({
+      edit: {
+        row: parseInt(e.target.dataset.row, 10),
+        cell: e.target.cellIndex
+      }
+    });
+  };
+
+  _save = e => {
+    e.preventDefault();
+    var input = e.target.firstChild;
+    var data = Array.from(this.state.data);
+    data[this.state.edit.row][this.state.edit.cell] = input.value;
+    this.setState({
+      edit: null,
+      data: data
+    });
+  };
+
   render() {
-    const { sortby, descending, data } = this.state;
+    const { sortby, descending, data, edit } = this.state;
 
     return (
       <table>
@@ -42,12 +63,24 @@ export default class Excel extends Component {
             })}
           </tr>
         </thead>
-        <tbody>
+        <tbody onDoubleClick={this._showEditor}>
           {data.map((row, rowidx) => {
             return (
               <tr key={rowidx}>
                 {row.map((cell, idx) => {
-                  return <td key={idx}>{cell}</td>;
+                  var content = cell;
+                  if (edit && edit.row === rowidx && edit.cell === idx) {
+                    content = (
+                      <form onSubmit={this._save}>
+                        <input type="text" defaultValue={cell} />
+                      </form>
+                    );
+                  }
+                  return (
+                    <td key={idx} data-row={rowidx}>
+                      {content}
+                    </td>
+                  );
                 })}
               </tr>
             );
