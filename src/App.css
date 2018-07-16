@@ -1,6 +1,6 @@
-.Excel {
-  text-align: center;
-  font-size: 62.5%;
+body {
+  margin: 0;
+  padding: 0 1em;
 }
 
 table {
@@ -19,12 +19,13 @@ th {
   padding: 0.3em;
 }
 
-button:hover {
+button:hover,
+.active {
   background: #549bff;
 }
 
 button {
-  margin-bottom: 1em;
+  margin: 1em 0;
   padding: 0.6em;
   background: grey;
   font-size: 0.8em;

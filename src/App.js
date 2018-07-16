@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import './App.css';
 
-import { constHeaders, constData, active } from './helpers';
+import { constHeaders, constData } from './helpers';
+import { Button } from './Button';
 
 export default class Excel extends Component {
   constructor(props) {
@@ -122,19 +123,11 @@ export default class Excel extends Component {
 
     return (
       <div>
-        <button style={search ? active : null} onClick={this._toggleSearch}>
-          Search
-        </button>
-        <button>
-          <a onClick={this._download.bind(this, 'json')} href="data.json">
-            Export JSON
-          </a>
-        </button>
-        <button>
-          <a onClick={this._download.bind(this, 'csv')} href="data.csv">
-            Export CSV
-          </a>
-        </button>
+        <Button
+          search={search}
+          _toggleSearch={this._toggleSearch}
+          _download={this._download}
+        />
         <table>
           <thead onClick={this._sort}>
             <tr>
@@ -142,11 +135,7 @@ export default class Excel extends Component {
                 return (
                   <th key={idx}>
                     {title}
-                    {sortby === idx
-                      ? descending
-                        ? ' \u2191'
-                        : ' \u2193'
-                      : null}
+                    {sortby === idx ? (descending ? '\u2191' : '\u2193') : null}
                   </th>
                 );
               })}
