@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import './App.css';
+import './Excel.css';
 
 import { constHeaders, constData } from './helpers';
-import { Button } from './Button';
+import { Button } from './components/Button';
 
 export default class Excel extends Component {
   constructor(props) {
@@ -89,7 +89,7 @@ export default class Excel extends Component {
     });
   };
 
-  _clear = e => {
+  _clearOnFocus = e => {
     e.target.placeholder = '';
   };
 
@@ -147,7 +147,7 @@ export default class Excel extends Component {
                     <td key={idx}>
                       <input
                         placeholder="search..."
-                        onFocus={this._clear}
+                        onFocus={this._clearOnFocus}
                         type="text"
                         data-idx={idx}
                       />
