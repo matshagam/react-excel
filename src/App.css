@@ -1,5 +1,6 @@
 .Excel {
   text-align: center;
+  font-size: 62.5%;
 }
 
 table {
@@ -11,21 +12,42 @@ td {
   border-top: 0.04em solid grey;
 }
 
+td,
+th {
+  width: 100%;
+  white-space: nowrap;
+  padding: 0.3em;
+}
+
 button:hover {
-  background: #515196;
+  background: #549bff;
 }
 
 button {
   margin-bottom: 1em;
   padding: 0.6em;
-  color: #fff;
   background: grey;
   font-size: 0.8em;
   font-weight: bold;
-  outline: none;
 }
 
 a {
   text-decoration: none;
+}
+
+button,
+a {
   color: #fff;
+  border-color: #fff;
+  cursor: pointer;
+}
+
+button,
+input {
+  outline: none;
+}
+
+input[type='text'] {
+  width: 100%;
+  border: none;
 }

@@ -50,3 +50,7 @@ export const constData = [
     '100 million'
   ]
 ];
+
+export const active = {
+  background: '#549bff'
+};

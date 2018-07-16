@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 
-import { constHeaders, constData } from './helpers';
+import { constHeaders, constData, active } from './helpers';
 
 export default class Excel extends Component {
   constructor(props) {
@@ -88,6 +88,10 @@ export default class Excel extends Component {
     });
   };
 
+  _clear = e => {
+    e.target.placeholder = '';
+  };
+
   _download = (format, ev) => {
     var contents =
       format === 'json'
@@ -118,7 +122,9 @@ export default class Excel extends Component {
 
     return (
       <div>
-        <button onClick={this._toggleSearch}>Search</button>
+        <button style={search ? active : null} onClick={this._toggleSearch}>
+          Search
+        </button>
         <button>
           <a onClick={this._download.bind(this, 'json')} href="data.json">
             Export JSON
@@ -133,10 +139,16 @@ export default class Excel extends Component {
           <thead onClick={this._sort}>
             <tr>
               {constHeaders.map((title, idx) => {
-                if (sortby === idx) {
-                  title += descending ? ' \u2191' : ' \u2193';
-                }
-                return <th key={idx}>{title}</th>;
+                return (
+                  <th key={idx}>
+                    {title}
+                    {sortby === idx
+                      ? descending
+                        ? ' \u2191'
+                        : ' \u2193'
+                      : null}
+                  </th>
+                );
               })}
             </tr>
             {search ? (
@@ -144,7 +156,12 @@ export default class Excel extends Component {
                 {constHeaders.map((_ignore, idx) => {
                   return (
                     <td key={idx}>
-                      <input type="text" data-idx={idx} />
+                      <input
+                        placeholder="search..."
+                        onFocus={this._clear}
+                        type="text"
+                        data-idx={idx}
+                      />
                     </td>
                   );
                 })}
