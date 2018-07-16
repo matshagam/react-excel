@@ -56,7 +56,6 @@ export default class Excel extends Component {
         data: this._preSearchData,
         search: !this.state.search
       });
-      this._preSearchData = null;
     } else {
       this._preSearchData = this.state.data;
       this.setState({
@@ -67,7 +66,6 @@ export default class Excel extends Component {
 
   _search = e => {
     var needle = e.target.value.toLowerCase();
-    console.log({ needle });
 
     if (!needle) {
       this.setState({
