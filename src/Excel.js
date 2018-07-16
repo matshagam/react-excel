@@ -17,17 +17,19 @@ export default class Excel extends Component {
   }
 
   _sort = e => {
-    var column = e.target.cellIndex;
-    var data = Array.from(this.state.data);
-    var descending = this.state.sortby === column && !this.state.descending;
-    data.sort((a, b) => {
-      return descending ? a[column] < b[column] : a[column] > b[column];
-    });
-    this.setState({
-      data: data,
-      sortby: column,
-      descending: descending
-    });
+    if (this.state.edit === null) {
+      var column = e.target.cellIndex;
+      var data = Array.from(this.state.data);
+      var descending = this.state.sortby === column && !this.state.descending;
+      data.sort((a, b) => {
+        return descending ? a[column] < b[column] : a[column] > b[column];
+      });
+      this.setState({
+        data: data,
+        sortby: column,
+        descending: descending
+      });
+    }
   };
 
   _showEditor = e => {
@@ -128,12 +130,18 @@ export default class Excel extends Component {
         />
         <table>
           <thead onClick={this._sort}>
-            <tr>
+            <tr className="head">
               {constHeaders.map((title, idx) => {
                 return (
                   <th key={idx}>
                     {title}
-                    {sortby === idx ? (descending ? '\u2191' : '\u2193') : null}
+                    <span>
+                      {sortby === idx
+                        ? descending
+                          ? '\u2191'
+                          : '\u2193'
+                        : null}
+                    </span>
                   </th>
                 );
               })}

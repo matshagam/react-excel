@@ -8,6 +8,10 @@ table {
   border: 0.1em solid grey;
 }
 
+.head th {
+  user-select: none;
+}
+
 td {
   border-top: 0.04em solid grey;
 }
@@ -17,6 +21,11 @@ th {
   width: 100%;
   white-space: nowrap;
   padding: 0.3em;
+}
+
+th span {
+  width: 23px;
+  display: inline-block;
 }
 
 button:hover,
@@ -51,4 +60,5 @@ input {
 input[type='text'] {
   width: 100%;
   border: none;
+  background: #80808036;
 }
